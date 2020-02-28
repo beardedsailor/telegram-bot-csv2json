@@ -3,7 +3,7 @@ import sys
 import logging
 import csv
 import json
-import pandas as pd
+
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
@@ -25,6 +25,10 @@ def doc_handler(update, context):
     file_id = update.message.document.file_id
     newFile = context.bot.get_file(file_id)
     chat_id = update.message.from_user.id
+    file_type = update.message.document.mime_type
+    if file_type!='text/csv':
+        update.message.reply_text("please send csv format file")
+        return
     newFile.download('file1.csv')
     update.message.reply_text("I'm working on your request")
 
